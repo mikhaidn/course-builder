@@ -222,8 +222,10 @@ export class App {
       return `
         <div class="section-item ${this.currentSection?.id === section.id ? 'active' : ''}"
              data-id="${section.id}"
+             draggable="true"
              onclick="app.viewSection('${section.id}')">
           <div class="section-header">
+            <span class="drag-handle" title="Drag to reorder">⋮⋮</span>
             <span class="section-icon">${plugin?.icon || '📄'}</span>
             <span class="section-title">${section.title}</span>
           </div>
@@ -236,6 +238,91 @@ export class App {
         </div>
       `;
     }).join('');
+
+    // Setup drag and drop handlers
+    this.setupDragAndDrop();
+  }
+
+  setupDragAndDrop() {
+    const items = document.querySelectorAll('.section-item');
+    let draggedItem = null;
+
+    items.forEach(item => {
+      item.addEventListener('dragstart', (e) => {
+        draggedItem = item;
+        item.classList.add('dragging');
+        e.dataTransfer.effectAllowed = 'move';
+        e.dataTransfer.setData('text/html', item.innerHTML);
+      });
+
+      item.addEventListener('dragend', (e) => {
+        item.classList.remove('dragging');
+        draggedItem = null;
+      });
+
+      item.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        e.dataTransfer.dropEffect = 'move';
+
+        if (draggedItem && draggedItem !== item) {
+          const rect = item.getBoundingClientRect();
+          const midpoint = rect.top + rect.height / 2;
+
+          if (e.clientY < midpoint) {
+            item.classList.add('drag-over-top');
+            item.classList.remove('drag-over-bottom');
+          } else {
+            item.classList.add('drag-over-bottom');
+            item.classList.remove('drag-over-top');
+          }
+        }
+      });
+
+      item.addEventListener('dragleave', (e) => {
+        item.classList.remove('drag-over-top', 'drag-over-bottom');
+      });
+
+      item.addEventListener('drop', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+
+        item.classList.remove('drag-over-top', 'drag-over-bottom');
+
+        if (draggedItem && draggedItem !== item) {
+          const course = courseService.getCurrentCourse();
+          const draggedId = draggedItem.dataset.id;
+          const targetId = item.dataset.id;
+
+          const draggedIndex = course.sections.findIndex(s => s.id === draggedId);
+          const targetIndex = course.sections.findIndex(s => s.id === targetId);
+
+          if (draggedIndex !== -1 && targetIndex !== -1) {
+            // Determine if we should insert before or after based on drop position
+            const rect = item.getBoundingClientRect();
+            const midpoint = rect.top + rect.height / 2;
+            let newIndex = targetIndex;
+
+            if (e.clientY > midpoint && draggedIndex < targetIndex) {
+              // Dropping below target, and dragged is above: use target index
+              newIndex = targetIndex;
+            } else if (e.clientY > midpoint && draggedIndex > targetIndex) {
+              // Dropping below target, and dragged is below: insert after
+              newIndex = targetIndex + 1;
+            } else if (e.clientY < midpoint && draggedIndex > targetIndex) {
+              // Dropping above target, and dragged is below: use target index
+              newIndex = targetIndex;
+            } else if (e.clientY < midpoint && draggedIndex < targetIndex) {
+              // Dropping above target, and dragged is above: insert before
+              newIndex = targetIndex - 1;
+            }
+
+            courseService.moveSection(draggedId, newIndex);
+            this.renderSections();
+            this.showMessage('Section reordered');
+          }
+        }
+      });
+    });
   }
 
   renderSectionEditor(section) {

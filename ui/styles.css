@@ -128,6 +128,7 @@ body {
   padding: 0.75rem;
   cursor: pointer;
   transition: all 0.2s;
+  position: relative;
 }
 
 .section-item:hover {
@@ -140,11 +141,39 @@ body {
   border-color: #3498db;
 }
 
+.section-item.dragging {
+  opacity: 0.4;
+  cursor: move;
+}
+
+.section-item.drag-over-top {
+  border-top: 3px solid #3498db;
+  padding-top: calc(0.75rem - 2px);
+}
+
+.section-item.drag-over-bottom {
+  border-bottom: 3px solid #3498db;
+  padding-bottom: calc(0.75rem - 2px);
+}
+
 .section-header {
   display: flex;
   align-items: center;
   gap: 0.5rem;
   margin-bottom: 0.5rem;
+}
+
+.drag-handle {
+  cursor: move;
+  color: #adb5bd;
+  font-size: 0.9rem;
+  padding: 0 0.2rem;
+  user-select: none;
+  transition: color 0.2s;
+}
+
+.section-item:hover .drag-handle {
+  color: #495057;
 }
 
 .section-icon {
