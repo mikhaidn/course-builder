@@ -1,14 +1,22 @@
 /**
  * Storage Service
  * Handles JSON import/export and file operations
+ * Supports MECS (Modular Educational Content Standard) format
  */
 
+import { mecsAdapter } from './mecsAdapter.js';
+
 export class StorageService {
+  constructor() {
+    this.adapter = mecsAdapter;
+  }
   /**
-   * Export data to JSON file
+   * Export data to JSON file in MECS format
    */
   exportToFile(data, filename) {
-    const json = JSON.stringify(data, null, 2);
+    // Convert to MECS format
+    const mecsData = this.adapter.toMECS(data);
+    const json = JSON.stringify(mecsData, null, 2);
     const blob = new Blob([json], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
 
@@ -23,7 +31,8 @@ export class StorageService {
 
   /**
    * Import data from JSON file
-   * Returns a Promise that resolves with the parsed JSON data
+   * Supports both MECS format and legacy format
+   * Returns a Promise that resolves with the parsed and converted data
    */
   importFromFile() {
     return new Promise((resolve, reject) => {
@@ -42,9 +51,12 @@ export class StorageService {
         reader.onload = (event) => {
           try {
             const data = JSON.parse(event.target.result);
-            resolve(data);
+
+            // Convert from MECS format to internal format
+            const internalData = this.adapter.fromMECS(data);
+            resolve(internalData);
           } catch (error) {
-            reject(new Error('Invalid JSON file'));
+            reject(new Error('Invalid JSON file: ' + error.message));
           }
         };
         reader.onerror = () => reject(new Error('Failed to read file'));
