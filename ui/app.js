@@ -32,9 +32,6 @@ export class App {
     document.getElementById('course-description').addEventListener('input', (e) => this.updateCourseDescription(e.target.value));
     document.getElementById('course-author').addEventListener('input', (e) => this.updateCourseAuthor(e.target.value));
 
-    // View mode toggle
-    document.getElementById('toggle-view-btn').addEventListener('click', () => this.toggleViewMode());
-
     // Section actions
     document.getElementById('export-section-btn').addEventListener('click', () => this.exportCurrentSection());
   }
@@ -157,12 +154,23 @@ export class App {
     this.editSection(section.id);
   }
 
+  viewSection(sectionId) {
+    const course = courseService.getCurrentCourse();
+    const section = course.sections.find(s => s.id === sectionId);
+    if (!section) return;
+
+    this.currentSection = section;
+    this.viewMode = 'view';
+    this.renderSectionView();
+  }
+
   editSection(sectionId) {
     const course = courseService.getCurrentCourse();
     const section = course.sections.find(s => s.id === sectionId);
     if (!section) return;
 
     this.currentSection = section;
+    this.viewMode = 'edit';
     this.renderSectionEditor(section);
   }
 
@@ -212,16 +220,18 @@ export class App {
     container.innerHTML = course.sections.map((section, index) => {
       const plugin = registry.getPlugin(section.contentType);
       return `
-        <div class="section-item ${this.currentSection?.id === section.id ? 'active' : ''}" data-id="${section.id}">
+        <div class="section-item ${this.currentSection?.id === section.id ? 'active' : ''}"
+             data-id="${section.id}"
+             onclick="app.viewSection('${section.id}')">
           <div class="section-header">
             <span class="section-icon">${plugin?.icon || '📄'}</span>
             <span class="section-title">${section.title}</span>
           </div>
           <div class="section-actions">
-            <button class="btn-icon" onclick="app.moveSection('${section.id}', 'up')" ${index === 0 ? 'disabled' : ''}>↑</button>
-            <button class="btn-icon" onclick="app.moveSection('${section.id}', 'down')" ${index === course.sections.length - 1 ? 'disabled' : ''}>↓</button>
-            <button class="btn-icon" onclick="app.editSection('${section.id}')">✏️</button>
-            <button class="btn-icon" onclick="app.deleteSection('${section.id}')">🗑️</button>
+            <button class="btn-icon" onclick="event.stopPropagation(); app.moveSection('${section.id}', 'up')" ${index === 0 ? 'disabled' : ''} title="Move up">↑</button>
+            <button class="btn-icon" onclick="event.stopPropagation(); app.moveSection('${section.id}', 'down')" ${index === course.sections.length - 1 ? 'disabled' : ''} title="Move down">↓</button>
+            <button class="btn-icon btn-edit" onclick="event.stopPropagation(); app.editSection('${section.id}')" title="Edit">✏️</button>
+            <button class="btn-icon btn-delete" onclick="event.stopPropagation(); app.deleteSection('${section.id}')" title="Delete">🗑️</button>
           </div>
         </div>
       `;
@@ -236,7 +246,12 @@ export class App {
     }
 
     const container = document.getElementById('section-editor');
+    container.className = 'section-editor editor-mode';
     container.innerHTML = `
+      <div class="mode-indicator edit-mode-indicator">
+        <span class="mode-icon">✏️</span>
+        <span class="mode-label">EDIT MODE</span>
+      </div>
       <div class="section-editor-header">
         <input
           type="text"
@@ -250,7 +265,8 @@ export class App {
       </div>
       <div id="section-content-editor"></div>
       <div class="section-editor-actions">
-        <button id="save-section-btn" class="btn-primary">Save Section</button>
+        <button id="save-section-btn" class="btn-primary">💾 Save Changes</button>
+        <button id="preview-section-btn" class="btn-secondary">👁️ Preview</button>
       </div>
     `;
 
@@ -268,23 +284,15 @@ export class App {
     document.getElementById('save-section-btn').addEventListener('click', () => {
       courseService.updateSection(section.id, { content: section.content });
       this.showMessage('Section saved!');
-      if (this.viewMode === 'view') {
-        this.renderSectionView();
-      }
+    });
+
+    document.getElementById('preview-section-btn').addEventListener('click', () => {
+      courseService.updateSection(section.id, { content: section.content });
+      this.viewMode = 'view';
+      this.renderSectionView();
     });
   }
 
-  toggleViewMode() {
-    this.viewMode = this.viewMode === 'edit' ? 'view' : 'edit';
-    const btn = document.getElementById('toggle-view-btn');
-    btn.textContent = this.viewMode === 'edit' ? 'Preview' : 'Edit Mode';
-
-    if (this.viewMode === 'view') {
-      this.renderSectionView();
-    } else if (this.currentSection) {
-      this.renderSectionEditor(this.currentSection);
-    }
-  }
 
   renderSectionView() {
     if (!this.currentSection) return;
@@ -293,16 +301,28 @@ export class App {
     if (!plugin) return;
 
     const container = document.getElementById('section-editor');
+    container.className = 'section-editor view-mode';
     container.innerHTML = `
+      <div class="mode-indicator view-mode-indicator">
+        <span class="mode-icon">👁️</span>
+        <span class="mode-label">VIEW MODE</span>
+      </div>
       <div class="section-view-header">
         <h2>${this.currentSection.title}</h2>
-        <span class="section-type-badge">${plugin.icon} ${plugin.displayName}</span>
+        <div class="section-view-meta">
+          <span class="section-type-badge">${plugin.icon} ${plugin.displayName}</span>
+          <button id="edit-current-section-btn" class="btn-edit-inline">✏️ Edit Section</button>
+        </div>
       </div>
-      <div id="section-content-view"></div>
+      <div id="section-content-view" class="section-content-view"></div>
     `;
 
     const contentView = document.getElementById('section-content-view');
     plugin.renderView(contentView, this.currentSection.content);
+
+    document.getElementById('edit-current-section-btn').addEventListener('click', () => {
+      this.editSection(this.currentSection.id);
+    });
   }
 
   exportCurrentSection() {
@@ -335,5 +355,8 @@ export class App {
   }
 }
 
+// Create and export app instance
+export const app = new App();
+
 // Make app globally accessible for inline event handlers
-window.app = new App();
+window.app = app;
