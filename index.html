@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Course Builder</title>
+  <link rel="stylesheet" href="ui/styles.css">
+  <!-- Markdown parser for rendering markdown content -->
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+</head>
+<body>
+  <div id="app">
+    <!-- Header -->
+    <header class="app-header">
+      <h1>📚 Course Builder</h1>
+      <div class="header-actions">
+        <button id="new-course-btn" class="btn-secondary">New Course</button>
+        <button id="save-course-btn" class="btn-secondary">Save</button>
+        <button id="load-course-btn" class="btn-secondary">Load</button>
+        <button id="import-course-btn" class="btn-secondary">Import JSON</button>
+        <button id="export-course-btn" class="btn-primary">Export JSON</button>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="app-content">
+      <!-- Left Sidebar: Course Info & Sections -->
+      <aside class="sidebar">
+        <div class="course-info">
+          <h2>Course Details</h2>
+          <div class="form-group">
+            <label>Title</label>
+            <input type="text" id="course-title" placeholder="Course Title" />
+          </div>
+          <div class="form-group">
+            <label>Author</label>
+            <input type="text" id="course-author" placeholder="Author Name" />
+          </div>
+          <div class="form-group">
+            <label>Description</label>
+            <textarea id="course-description" rows="3" placeholder="Course description"></textarea>
+          </div>
+        </div>
+
+        <div class="sections-panel">
+          <div class="sections-header">
+            <h2>Sections</h2>
+            <div id="content-type-buttons" class="content-type-buttons"></div>
+          </div>
+          <div id="sections-list" class="sections-list"></div>
+        </div>
+      </aside>
+
+      <!-- Main Editor Area -->
+      <main class="main-content">
+        <div class="editor-toolbar">
+          <button id="toggle-view-btn" class="btn-secondary">Preview</button>
+          <button id="export-section-btn" class="btn-secondary">Export Section</button>
+        </div>
+        <div id="section-editor" class="section-editor">
+          <p class="no-selection">Select a section to edit or create a new one</p>
+        </div>
+      </main>
+    </div>
+
+    <!-- Message Toast -->
+    <div id="message" class="message"></div>
+  </div>
+
+  <!-- Application Scripts (ES6 Modules) -->
+  <script type="module">
+    import { app } from './ui/app.js';
+
+    // Initialize app when DOM is ready
+    document.addEventListener('DOMContentLoaded', () => {
+      app.init();
+    });
+  </script>
+</body>
+</html>

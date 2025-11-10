@@ -1,0 +1,108 @@
+{
+  "id": "course_1699123456789_example001",
+  "title": "Calculus I",
+  "description": "Introduction to differential and integral calculus. This course covers limits, derivatives, and their applications.",
+  "author": "Dr. Jane Smith",
+  "createdAt": "2024-01-15T10:00:00.000Z",
+  "updatedAt": "2024-01-20T15:30:00.000Z",
+  "sections": [
+    {
+      "id": "section_1699123456790_001",
+      "title": "Course Introduction",
+      "order": 0,
+      "contentType": "markdown",
+      "content": {
+        "markdown": "# Welcome to Calculus I\n\nThis course will introduce you to the fundamental concepts of calculus, including:\n\n- **Limits**: Understanding the behavior of functions as they approach specific values\n- **Derivatives**: Measuring rates of change\n- **Integrals**: Calculating areas and accumulation\n- **Applications**: Real-world problems using calculus\n\n## Prerequisites\n\n- Algebra II\n- Trigonometry\n- Basic function knowledge\n\n## Course Structure\n\nThe course is divided into several modules, each building on previous concepts. Make sure to complete sections in order for the best learning experience."
+      },
+      "createdAt": "2024-01-15T10:05:00.000Z",
+      "updatedAt": "2024-01-15T10:05:00.000Z"
+    },
+    {
+      "id": "section_1699123456791_002",
+      "title": "Introduction to Limits",
+      "order": 1,
+      "contentType": "video",
+      "content": {
+        "title": "What is a Limit?",
+        "url": "https://www.youtube.com/watch?v=riXcZT2ICjA",
+        "description": "This video explains the fundamental concept of limits in calculus, using intuitive examples and visualizations."
+      },
+      "createdAt": "2024-01-15T10:10:00.000Z",
+      "updatedAt": "2024-01-15T10:10:00.000Z"
+    },
+    {
+      "id": "section_1699123456792_003",
+      "title": "Limits: Theory and Practice",
+      "order": 2,
+      "contentType": "markdown",
+      "content": {
+        "markdown": "## Understanding Limits\n\nA **limit** describes the value that a function approaches as the input approaches some value.\n\n### Formal Definition\n\nWe write:\n\n```\nlim(x→a) f(x) = L\n```\n\nThis means: \"As x approaches a, f(x) approaches L.\"\n\n### Example\n\nConsider the function:\n\n```\nf(x) = (x² - 4)/(x - 2)\n```\n\nWhat happens as x approaches 2?\n\n- When x = 2, the function is undefined (0/0)\n- But we can simplify: f(x) = (x + 2)(x - 2)/(x - 2) = x + 2\n- As x → 2, f(x) → 4\n\nTherefore: `lim(x→2) f(x) = 4`\n\n### Key Properties\n\n1. **Sum Rule**: lim[f(x) + g(x)] = lim f(x) + lim g(x)\n2. **Product Rule**: lim[f(x) × g(x)] = lim f(x) × lim g(x)\n3. **Quotient Rule**: lim[f(x) / g(x)] = lim f(x) / lim g(x) (if lim g(x) ≠ 0)"
+      },
+      "createdAt": "2024-01-15T10:15:00.000Z",
+      "updatedAt": "2024-01-15T10:15:00.000Z"
+    },
+    {
+      "id": "section_1699123456793_004",
+      "title": "Practice Problems: Limits",
+      "order": 3,
+      "contentType": "document",
+      "content": {
+        "title": "Limits Practice Worksheet",
+        "docType": "pdf",
+        "url": "https://example.com/calculus/limits-practice.pdf",
+        "description": "A collection of 20 practice problems covering basic limit concepts, including one-sided limits, limits at infinity, and indeterminate forms. Solutions are provided at the end."
+      },
+      "createdAt": "2024-01-15T10:20:00.000Z",
+      "updatedAt": "2024-01-15T10:20:00.000Z"
+    },
+    {
+      "id": "section_1699123456794_005",
+      "title": "Introduction to Derivatives",
+      "order": 4,
+      "contentType": "markdown",
+      "content": {
+        "markdown": "# Derivatives: The Rate of Change\n\n## What is a Derivative?\n\nA **derivative** measures how a function changes as its input changes. It represents the *instantaneous rate of change*.\n\n## The Derivative Definition\n\nThe derivative of f(x) at x = a is:\n\n```\nf'(a) = lim(h→0) [f(a + h) - f(a)] / h\n```\n\n## Geometric Interpretation\n\nThe derivative represents the **slope of the tangent line** to the function at a given point.\n\n## Notation\n\nThere are several ways to write derivatives:\n\n- `f'(x)` (Lagrange notation)\n- `df/dx` (Leibniz notation)\n- `Df(x)` (Euler notation)\n\n## Example: Finding a Derivative\n\nLet's find the derivative of f(x) = x²:\n\n```\nf'(x) = lim(h→0) [(x + h)² - x²] / h\n     = lim(h→0) [x² + 2xh + h² - x²] / h\n     = lim(h→0) [2xh + h²] / h\n     = lim(h→0) [2x + h]\n     = 2x\n```\n\nTherefore, the derivative of x² is 2x."
+      },
+      "createdAt": "2024-01-15T10:25:00.000Z",
+      "updatedAt": "2024-01-15T10:25:00.000Z"
+    },
+    {
+      "id": "section_1699123456795_006",
+      "title": "Derivative Rules",
+      "order": 5,
+      "contentType": "video",
+      "content": {
+        "title": "Essential Derivative Rules",
+        "url": "https://www.youtube.com/watch?v=S2xyoYlzxGM",
+        "description": "Learn the power rule, product rule, quotient rule, and chain rule for computing derivatives efficiently."
+      },
+      "createdAt": "2024-01-15T10:30:00.000Z",
+      "updatedAt": "2024-01-15T10:30:00.000Z"
+    },
+    {
+      "id": "section_1699123456796_007",
+      "title": "Course Syllabus",
+      "order": 6,
+      "contentType": "document",
+      "content": {
+        "title": "Calculus I Course Syllabus",
+        "docType": "pdf",
+        "url": "https://example.com/calculus/syllabus.pdf",
+        "description": "Complete course syllabus including grading policy, office hours, exam dates, and weekly schedule."
+      },
+      "createdAt": "2024-01-15T10:35:00.000Z",
+      "updatedAt": "2024-01-15T10:35:00.000Z"
+    },
+    {
+      "id": "section_1699123456797_008",
+      "title": "Applications of Derivatives",
+      "order": 7,
+      "contentType": "markdown",
+      "content": {
+        "markdown": "# Real-World Applications\n\nDerivatives have countless applications in science, engineering, and everyday life.\n\n## Common Applications\n\n### 1. Physics: Motion\n\n- **Velocity** is the derivative of position\n- **Acceleration** is the derivative of velocity\n\nIf s(t) represents position at time t:\n- Velocity: v(t) = s'(t)\n- Acceleration: a(t) = v'(t) = s''(t)\n\n### 2. Economics: Marginal Analysis\n\n- **Marginal cost** = derivative of total cost\n- **Marginal revenue** = derivative of total revenue\n- **Marginal profit** = derivative of total profit\n\n### 3. Optimization Problems\n\nDerivatives help find maximum and minimum values:\n\n1. Find the derivative f'(x)\n2. Set f'(x) = 0 to find critical points\n3. Use the second derivative test to classify extrema\n\n### 4. Related Rates\n\nProblems where multiple quantities change with respect to time:\n\n*Example*: A ladder sliding down a wall - find how fast the top is falling given how fast the bottom is moving away.\n\n## Try It Yourself\n\nThink about other scenarios where rates of change matter:\n- Population growth\n- Chemical reactions\n- Temperature changes\n- Stock prices"
+      },
+      "createdAt": "2024-01-15T10:40:00.000Z",
+      "updatedAt": "2024-01-15T10:40:00.000Z"
+    }
+  ]
+}
