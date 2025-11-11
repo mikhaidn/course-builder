@@ -1,51 +1,82 @@
 # Course Builder
 
-A lightweight, modular GUI for creating, sharing, and working on courses with chunked sections.
+A simple web app for creating educational courses with drag-and-drop sections.
 
-**MECS Compatible**: This project implements the [Modular Educational Content Standard (MECS) v0.1.0](https://github.com/mikhaidn/mecs-standard) for interoperable educational content.
+![MECS Compatible](https://img.shields.io/badge/MECS-v0.1.0-blue)
+
+## Quick Start
+
+1. **Run the app:**
+   ```bash
+   cd ~/git/course-builder
+   python3 -m http.server 8000
+   ```
+   Open http://localhost:8000
+
+2. **Try the example:**
+   - Click "Import JSON"
+   - Load `examples/calculus_i_example.json`
+
+3. **Create your course:**
+   - Add sections (Markdown, Video, or Document)
+   - Drag to reorder
+   - Export as JSON
 
 ## Features
 
-- **Modular Content Types**: Markdown text, video URLs, and document links
-- **Extensible Plugin Architecture**: Easy to add new content types
-- **MECS Standard Support**: Export/import courses in MECS v0.1.0 format
-- **JSON Export/Import**: Entire courses or individual sections
-- **Clean Architecture**: Dependency inversion and minimal coupling
-- **Drag & Drop**: Reorder sections with intuitive drag-and-drop
-- **View/Edit Modes**: Distinct interfaces for viewing and editing content
+- 📝 **Three content types:** Markdown, Video URLs, Document links
+- 🎨 **Clean interface:** Separate view/edit modes
+- ↕️ **Drag & drop:** Reorder sections easily
+- 💾 **Export/Import:** Standard JSON format ([MECS](https://github.com/mikhaidn/mecs-standard))
+- 🔌 **Extensible:** Add custom content types
+
+## Example Usage
+
+```javascript
+// Create a course
+const course = {
+  title: "Introduction to Python",
+  sections: [
+    { type: "markdown", content: "# Welcome..." },
+    { type: "video", url: "https://..." }
+  ]
+}
+```
 
 ## Project Structure
 
 ```
 course-builder/
-├── config/           # Configuration and content type registry (opinions)
-├── core/             # Core domain models and interfaces (stable)
-├── plugins/          # Content type implementations (extensible)
-├── services/         # Business logic layer
-├── ui/               # User interface components
-└── examples/         # Example courses
+├── index.html          # Main app
+├── core/              # Data models
+├── plugins/           # Content types
+├── services/          # Business logic
+└── ui/                # Interface
 ```
 
-## Getting Started
+## Documentation
 
-1. Open `index.html` in a web browser
-2. Create a new course or load an existing JSON file
-3. Add sections with different content types
-4. Export your course as JSON
+- **[Plugin Guide](docs/PLUGIN_GUIDE.md)** - Create custom content types
+- **[Architecture](docs/ARCHITECTURE.md)** - Design principles
+- **[MECS Implementation](docs/STANDARD_IMPLEMENTATION.md)** - Standard support
+- **[Quick Start Guide](QUICKSTART.md)** - Detailed tutorial
 
-## Adding New Content Types
+## MECS Standard
 
-See `PLUGIN_GUIDE.md` for instructions on creating new content type plugins.
+Courses export in [MECS format](https://github.com/mikhaidn/mecs-standard) - an open standard for educational content that works across platforms.
 
-## Architecture
+## Development
 
-This application follows clean architecture principles:
-- **Core**: Domain models that should rarely change
-- **Plugins**: Isolated content type implementations
-- **Config**: Registry that wires plugins together
-- **Services**: Business logic coordinating core and plugins
-- **UI**: Presentation layer
+```bash
+# No build step needed - just open in browser
+# For local development:
+python3 -m http.server 8000
+```
 
-New content types can be added by:
-1. Creating a plugin in `plugins/`
-2. Registering it in `config/contentTypeRegistry.js`
+## License
+
+MIT
+
+---
+
+**Built to implement the [MECS standard](https://github.com/mikhaidn/mecs-standard)**

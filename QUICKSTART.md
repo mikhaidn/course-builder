@@ -74,4 +74,4 @@ Currently, all actions are button-based. Keyboard shortcuts may be added in futu
 
 ## Need Help?
 
-Check the README.md and PLUGIN_GUIDE.md for more detailed documentation.
+Check the [README](README.md) and [Plugin Guide](docs/PLUGIN_GUIDE.md) for more detailed documentation.
