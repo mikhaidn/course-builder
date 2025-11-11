@@ -131,6 +131,14 @@ body {
   position: relative;
 }
 
+.section-item[draggable="false"] {
+  cursor: default;
+}
+
+.section-item[draggable="true"] {
+  cursor: move;
+}
+
 .section-item:hover {
   background: #e9ecef;
   border-color: #adb5bd;

@@ -162,6 +162,7 @@ export class App {
     this.currentSection = section;
     this.viewMode = 'view';
     this.renderSectionView();
+    this.renderSections(); // Re-render to enable dragging
   }
 
   editSection(sectionId) {
@@ -172,6 +173,7 @@ export class App {
     this.currentSection = section;
     this.viewMode = 'edit';
     this.renderSectionEditor(section);
+    this.renderSections(); // Re-render to disable dragging
   }
 
   deleteSection(sectionId) {
@@ -216,16 +218,19 @@ export class App {
     const course = courseService.getCurrentCourse();
     if (!course) return;
 
+    // Only allow dragging when not in edit mode
+    const isDraggable = this.viewMode !== 'edit';
+
     const container = document.getElementById('sections-list');
     container.innerHTML = course.sections.map((section, index) => {
       const plugin = registry.getPlugin(section.contentType);
       return `
         <div class="section-item ${this.currentSection?.id === section.id ? 'active' : ''}"
              data-id="${section.id}"
-             draggable="true"
+             draggable="${isDraggable}"
              onclick="app.viewSection('${section.id}')">
           <div class="section-header">
-            <span class="drag-handle" title="Drag to reorder">⋮⋮</span>
+            ${isDraggable ? '<span class="drag-handle" title="Drag to reorder">⋮⋮</span>' : ''}
             <span class="section-icon">${plugin?.icon || '📄'}</span>
             <span class="section-title">${section.title}</span>
           </div>
@@ -239,8 +244,10 @@ export class App {
       `;
     }).join('');
 
-    // Setup drag and drop handlers
-    this.setupDragAndDrop();
+    // Setup drag and drop handlers only when dragging is enabled
+    if (isDraggable) {
+      this.setupDragAndDrop();
+    }
   }
 
   setupDragAndDrop() {
