@@ -2,12 +2,17 @@
 
 A lightweight, modular GUI for creating, sharing, and working on courses with chunked sections.
 
+**MECS Compatible**: This project implements the [Modular Educational Content Standard (MECS) v0.1.0](https://github.com/mikhaidn/mecs-standard) for interoperable educational content.
+
 ## Features
 
 - **Modular Content Types**: Markdown text, video URLs, and document links
 - **Extensible Plugin Architecture**: Easy to add new content types
+- **MECS Standard Support**: Export/import courses in MECS v0.1.0 format
 - **JSON Export/Import**: Entire courses or individual sections
 - **Clean Architecture**: Dependency inversion and minimal coupling
+- **Drag & Drop**: Reorder sections with intuitive drag-and-drop
+- **View/Edit Modes**: Distinct interfaces for viewing and editing content
 
 ## Project Structure
 

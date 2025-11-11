@@ -1,10 +1,10 @@
 /**
  * MECS Adapter
  * Converts between internal format and MECS (Modular Educational Content Standard)
- * MECS Spec: https://github.com/yourusername/mecs-standard
+ * MECS Spec: https://github.com/mikhaidn/mecs-standard
  */
 
-const MECS_VERSION = '1.0.0';
+const MECS_VERSION = '0.1.0';
 
 export class MECSAdapter {
   /**
